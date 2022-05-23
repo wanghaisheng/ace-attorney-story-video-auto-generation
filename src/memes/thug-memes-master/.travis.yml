@@ -1,0 +1,44 @@
+sudo: false
+language: python
+before_install:
+- sudo apt-get -qq update
+- sudo apt-get install -qq cmake python-numpy python-scipy libboost-python-dev
+install:
+- pip install tox
+- pip install dlib
+- pip install codecov
+stages:
+- test
+- name: deploy
+  if: tag IS present
+jobs:
+  include:
+  - python: 3.4
+    env: TOXENV=py34
+  - python: 3.5
+    env: TOXENV=py35
+  - python: 3.6
+    env: TOXENV=py36
+  - python: 3.7
+    env: TOXENV=py37
+    dist: xenial
+    sudo: true
+  - stage: deploy
+    python: 3.6
+    script: skip
+    before_install: skip
+    install: skip
+    deploy:
+      provider: pypi
+      user: jerry-pypi
+      password:
+        secure: o/j9T+2ZheXR6axcYW93ElP+0Tz01Fk8rwPNjkfkRTAA4UUfiyrqa6MkmeGWCTzxwxH1Pa7wfW1pQpK1QvJ9kEymhdA1GMWRzIvr0qrLoJG08VXjyvnsyNKS6xwdTnmn+8pwnCU12sI1V/WV79+uMOpa5UG2IAkSvmBHJJn9BqxhhTgvhuVJdzjCERKTKuu88iyRZ2uhGZT3/AGveBVeRw8U1DnyXSInj6Yyu/cn4lE0bHkmMNh8mjJ83Yua9Yz61Nsuj390mcvkKaWIUKgfID9LP3M2M4oeiFCK2WNcGPPhSXP7LbDfxl21Kvmx0XqOS0otCsIdf8MAcjDhjSq8sAc4pZAbWMeY3JX45Ua21INRZQQ/pN7boYiyuGMJVgjFAaZw6PzLo31if5yId7ud6vp0zo7izia1oFvHOaVgTm94SDwrKFC0LK96Sdj6TEwbmVokHh1CwDMzZ9f3d/1I/ZF/AbaEYx8D+VXGiMr1Hp3Xyb13Btp1Y6rLIQbn/+wbWExkvy4uH/gPsA3ULehpyeECQ04NCtw5+Zd5wq3NswozX13YxsLE6Al2BkM8jx/vyA6JuCuSwbsIFsRM6dAJWs1vHPmYN4xxAZieOjPUZtfVtMuJeSL5c3ZkaWTDTrMVagiGPHZ5iJmsBuAV6B7QrK6QcbNLJ+tHtPG7MMjXyBo=
+      on:
+        tags: true
+script:
+- tox
+after_success:
+- codecov
+notifications:
+  slack:
+    secure: SFc6JEdyeRocvab4Vlym3Jjf+mQwCYKZAilayjJxMzwk4tFlzVEgVF19UfQsw1ndzryzfwUE+aWXhaJOzZQCuvJxsKFWvl5X5Uc+dC/Be6j1kZUYtz6E+wJ/nR4EqSnEv4tGGoEYUAEDTEeJvCnXakTa+kjlMn4ZPBCIJ1/a3M71GGaA9RYyGbWLuzMBPAsMbjNLzqZyNjYyxV6C0cXgxc2cz4HtVRoOK1PJ/gHxdWmT32R8FwL3TBHAUAIv8cDj67VrsAwePnbEKf1utLrZGTFQvmG6Ofvtk5XTC6xVvnEiw/BcezQLlA4sUfH0lYZ18if19vz60UIHLra/qyw7JBcf5UdWWvTXFc0pfCzSvB6l9UEIc3CU+8htKOGglb4cTrRYIh0rPWBrbj6QnfNErGdt6xQjhP8LrDNGHqV8teNkPawl2M+VqZ9XkEgLaxmWRg5wZeWtOoucJm69PQeV98EVUJjXmYKuxrddAJGVg4Wd5/lC83lIZSmmZHroBCVatmHOEmAJpWqgZQ4zUtGH3u9XIX4gIMeChVNOwfSjTxMJGehL/L5vAqoWdZAwymlfprLbeTqHQaZu+nZ/UDZKOVrLjfXQJgQV9RyKW17FO0Qn1M7YsinNsal5IhUi72Pzq0wk+fAve55Vadc9iWr1puzXHFEqlKohYzrKiHS4kf4=
