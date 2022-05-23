@@ -1,4 +1,6 @@
-## 动态漫画自动生成引擎    
+## turn any text story into  ace attorney style video
+
+动态漫画自动生成引擎    
 
 
 ## add tts  to make it talking instead of yaba
