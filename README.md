@@ -5,3 +5,7 @@
 
 ## upscale orignal assets with AI
 
+
+## generate gif with ai
+
+https://github.com/TheTempAccount/Co-Speech-Motion-Generation
