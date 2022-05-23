@@ -6,8 +6,14 @@
 
 ### add tts  to make it talking instead of yaba
 
+* amazon polly
+* ibm waston
+* tiktok tts
+
 ### upscale orignal assets with AI
 
+* waifu2X
+* https://github.com/hokejyo/VisualNovelUpscaler
 
 ### generate gif with ai
 
